@@ -8,13 +8,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListView lvAvisos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lvAvisos = (ListView) findViewById(R.id.lvAvisos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -26,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        String[] fruits = new String[]{"Apple","Orange","Banana","Grape"};
+        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,R.layout.avisos_row,R.id.tvRow,fruits);
+        lvAvisos.setAdapter(arrayAdapter);
     }
 
     @Override

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:background="@color/colorContent"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <view
+            class="android.view.View"
+            android:id="@+id/vRow"
+            android:background="@color/v_color"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+        />
+
+        <TextView
+            android:id="@+id/tvRow"
+            android:background="@color/colorContent"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:text="Aviso Text"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+        />
+    </LinearLayout>
+
+    <view
+        class="android.view.View"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/v_color"
+    />
+
+    <view
+        class="android.view.View"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/v_color"
+    />
+</LinearLayout>
