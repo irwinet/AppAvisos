@@ -43,7 +43,7 @@ public class AvisosSimpleCursorAdapter extends SimpleCursorAdapter
         }
         else
         {
-            holder.listTab.setBackgroundColor(context.getResources().getColor(R.color.rosa));
+            holder.listTab.setBackgroundColor(context.getResources().getColor(R.color.naranja_claro));
         }
     }
 
