@@ -30,7 +30,7 @@ public class AvisosDBAdapter {
 
     private static final String DATABASE_NAME="dba_remdrs";
     private static final String TABLE_NAME="tbl_remdrs";
-    private static final int DATABASE_VERSION=1;
+    private static final int DATABASE_VERSION=2;
 
     private final Context mCtx;
 
@@ -38,8 +38,8 @@ public class AvisosDBAdapter {
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists "+TABLE_NAME+" ( "+
                     COL_ID + " INTEGER PRIMARY KEY autoincrement, "+
-                    COL_CONTENT + "TEXT, "+
-                    COL_IMPORTANT + "INTEGER );";
+                    COL_CONTENT + " TEXT, "+
+                    COL_IMPORTANT + " INTEGER );";
 
     public AvisosDBAdapter(Context ctx)
     {

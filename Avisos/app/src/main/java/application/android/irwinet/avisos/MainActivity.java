@@ -1,5 +1,6 @@
 package application.android.irwinet.avisos;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,12 +16,28 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
 
     private ListView lvAvisos;
+    private AvisosDBAdapter mDbAdapter;
+    private AvisosSimpleCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvAvisos = (ListView) findViewById(R.id.lvAvisos);
+        findViewById(R.id.lvAvisos);
+        lvAvisos.setDivider(null);
+        mDbAdapter=new AvisosDBAdapter(this);
+        mDbAdapter.open();
+
+        if(savedInstanceState==null)
+        {
+            mDbAdapter.deleteAllReminders();
+            mDbAdapter.createReminder("Visitar el centro de recogida",true);
+            mDbAdapter.createReminder("Enviar los regalos prometidos",false);
+            mDbAdapter.createReminder("Hacer la compra semanas",false);
+            mDbAdapter.createReminder("Comprobar el correo",false);
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,9 +49,23 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        String[] fruits = new String[]{"Apple","Orange","Banana","Grape"};
-        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,R.layout.avisos_row,R.id.tvRow,fruits);
-        lvAvisos.setAdapter(arrayAdapter);
+
+        Cursor cursor=mDbAdapter.fetchALLReminders();
+
+        String[] from = new String[]{
+                AvisosDBAdapter.COL_CONTENT
+        };
+
+        int[] to =new int[]{
+                R.id.tvRow
+        };
+
+        mCursorAdapter=new AvisosSimpleCursorAdapter(
+                MainActivity.this,R.layout.avisos_row,cursor,from,to,0
+        );
+
+        lvAvisos.setAdapter(mCursorAdapter);
+        mDbAdapter.close();
     }
 
     @Override
