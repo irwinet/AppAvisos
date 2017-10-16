@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher);
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.setHomeButtonEnabled(true);
+        //actionBar.setDisplayShowHomeEnabled(true);
+        //actionBar.setIcon(R.mipmap.ic_launcher);
 
         lvAvisos = (ListView) findViewById(R.id.lvAvisos);
         findViewById(R.id.lvAvisos);
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState==null)
         {
             mDbAdapter.deleteAllReminders();
-            mDbAdapter.createReminder("Visitar el centro de recogida",true);
-            mDbAdapter.createReminder("Enviar los regalos prometidos",false);
-            mDbAdapter.createReminder("Hacer la compra semanas",false);
-            mDbAdapter.createReminder("Comprobar el correo",false);
+            mDbAdapter.createReminder("Estudiar Material Design",false);
+            mDbAdapter.createReminder("Estudiar Vuforia",true);
+            mDbAdapter.createReminder("Estudiar a Boot - IA",false);
+            mDbAdapter.createReminder("Estudiar Android Studio",false);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
