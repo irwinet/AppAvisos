@@ -16,10 +16,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,15 +99,22 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
+                        mDbAdapter.open();
                         //editar aviso
                         if(position==0)
                         {
-                            Toast.makeText(MainActivity.this,"editar "+masterListPosition, Toast.LENGTH_SHORT).show();
+                            int nId = getIdFromPosition(masterListPosition);
+                            Aviso aviso = mDbAdapter.fetchReminderById(nId);
+                            fireCustomDialog(aviso);
+                            Toast.makeText(MainActivity.this,"Se edito correctamente", Toast.LENGTH_SHORT).show();
                         }
                         else //borrar aviso
                         {
-                            Toast.makeText(MainActivity.this,"borrar "+masterListPosition, Toast.LENGTH_SHORT).show();
+                            mDbAdapter.deleteRememberById(getIdFromPosition(masterListPosition));
+                            mCursorAdapter.changeCursor(mDbAdapter.fetchALLReminders());
+                            Toast.makeText(MainActivity.this,"Se elimino correctamente", Toast.LENGTH_SHORT).show();
                         }
+                        mDbAdapter.close();
                         dialog.dismiss();
                     }
                 });
@@ -168,6 +181,62 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void fireCustomDialog(final Aviso aviso)
+    {
+        final Dialog dialog=new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_custom);
+
+        TextView titleView = (TextView) dialog.findViewById(R.id.custom_title);
+        final EditText editCustom = (EditText) dialog.findViewById(R.id.custom_edit_reminder);
+        Button commitButton = (Button) dialog.findViewById(R.id.custom_button_commit);
+        final CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.custom_check_box);
+        LinearLayout rootLayout = (LinearLayout) dialog.findViewById(R.id.custom_root_layout);
+        final boolean isEditOperation = (aviso != null);
+
+        //esto es para un edit
+        if(isEditOperation)
+        {
+            titleView.setText("Editar Aviso");
+            checkBox.setChecked(aviso.getIntImportant()==1);
+            editCustom.setText(aviso.getVarContent());
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.azul_neutro));
+        }
+
+        commitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                mDbAdapter.open();
+                String reminderText = editCustom.getText().toString();
+                if(isEditOperation)
+                {
+                    Aviso reminderEdited = new Aviso(aviso.getIntAvisoId(), reminderText, checkBox.isChecked()?1:0);
+                    mDbAdapter.updateReminder(reminderEdited);
+                }//Esto es para un nuevo aviso
+                else
+                {
+                    mDbAdapter.createReminder(reminderText,checkBox.isChecked());
+                }
+
+                mCursorAdapter.changeCursor(mDbAdapter.fetchALLReminders());
+                mDbAdapter.close();
+                dialog.dismiss();
+            }
+        });
+
+        Button buttonCancel=(Button) dialog.findViewById(R.id.custom_button_cancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -179,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.action_new:
                 //create ne aviso
-                Log.d(getLocalClassName(),"Crear Nuevo Aviso");
+                //Log.d(getLocalClassName(),"Crear Nuevo Aviso");
+                fireCustomDialog(null);
                 return true;
             case R.id.action_exit:
                 finish();
