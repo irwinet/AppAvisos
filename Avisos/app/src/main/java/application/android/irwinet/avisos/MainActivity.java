@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                             int nId = getIdFromPosition(masterListPosition);
                             Aviso aviso = mDbAdapter.fetchReminderById(nId);
                             fireCustomDialog(aviso);
-                            Toast.makeText(MainActivity.this,"Se edito correctamente", Toast.LENGTH_SHORT).show();
                         }
                         else //borrar aviso
                         {
@@ -204,10 +203,10 @@ public class MainActivity extends AppCompatActivity {
         //esto es para un edit
         if(isEditOperation)
         {
-            titleView.setText("Editar Aviso");
+            titleView.setText("Editar Aviso:");
             checkBox.setChecked(aviso.getIntImportant()==1);
             editCustom.setText(aviso.getVarContent());
-            rootLayout.setBackgroundColor(getResources().getColor(R.color.azul_neutro));
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.colorContent));
         }
 
         commitButton.setOnClickListener(new View.OnClickListener(){

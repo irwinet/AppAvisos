@@ -10,6 +10,7 @@
     <!-- Colors Dialog -->
     <color name="gris_claro">#bababa</color>
     <color name="negro">#000000</color>
+    <color name="lila">#DF165D</color>
     <color name="azul_neutro">#ff1118ff</color>
     <color name="gris_oscuro">#181818</color>
     <color name="blanco">#ffffff</color>
